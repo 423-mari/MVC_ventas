@@ -1,6 +1,7 @@
 from flask import Flask, request
-from controllers import usuario_controller,cliente_controller,producto_controller,venta_controller
+from controllers import usuario_controller, cliente_controller, producto_controller, venta_controller
 from database import db
+from models.usuario_model import Usuario   # <-- IMPORT CORRECTO
 
 app = Flask(__name__)
 
@@ -17,8 +18,9 @@ app.register_blueprint(venta_controller.venta_bp)
 @app.context_processor
 def inject_active_path():
     def is_active(path):
-        return 'active' if request.path == path else  ''
-    return(dict(is_active = is_active))
+        return 'active' if request.path == path else ''
+    return dict(is_active=is_active)
+
 @app.route("/")
 def home():
     return "<h1>APLICACION VENTAS</h1>"
@@ -28,9 +30,8 @@ if __name__ == "__main__":
         db.create_all()
 
         # Crear usuario por defecto si no existe
-        from models import usuario  # Asegúrate de que el modelo se llame igual
-        if not usuario.query.first():
-            admin = usuario(
+        if not Usuario.query.first():
+            admin = Usuario(
                 nombre="Administrador",
                 username="admin",
                 password="admin",
@@ -38,6 +39,6 @@ if __name__ == "__main__":
             )
             db.session.add(admin)
             db.session.commit()
-            print("Usuario administrador creado por defecto")
+            print("Usuario administrador creado")
 
     app.run(debug=True)
