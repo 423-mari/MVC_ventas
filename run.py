@@ -26,4 +26,18 @@ def home():
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
+
+        # Crear usuario por defecto si no existe
+        from models import usuario  # Asegúrate de que el modelo se llame igual
+        if not usuario.query.first():
+            admin = usuario(
+                nombre="Administrador",
+                username="admin",
+                password="admin",
+                rol="admin"
+            )
+            db.session.add(admin)
+            db.session.commit()
+            print("Usuario administrador creado por defecto")
+
     app.run(debug=True)
