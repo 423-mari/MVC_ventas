@@ -39,6 +39,6 @@ if __name__ == "__main__":
             )
             db.session.add(admin)
             db.session.commit()
-            print("Usuario administrador creado")
+            print("Usuario administrador creado por defecto")
 
     app.run(debug=True)
