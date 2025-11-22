@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, redirect
 from controllers import usuario_controller, cliente_controller, producto_controller, venta_controller
 from database import db
 from models.usuario_model import Usuario   # <-- IMPORT CORRECTO
@@ -23,7 +23,7 @@ def inject_active_path():
 
 @app.route("/")
 def home():
-    return "<h1>APLICACION VENTAS</h1>"
+    return redirect('/usuarios')
 
 if __name__ == "__main__":
     with app.app_context():
